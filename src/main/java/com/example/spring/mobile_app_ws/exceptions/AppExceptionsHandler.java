@@ -13,8 +13,8 @@ import java.util.Date;
 
 @ControllerAdvice // listen to all exceptions
 public class AppExceptionsHandler extends ResponseEntityExceptionHandler {
-    @ExceptionHandler(Exception.class) // eg. NullPointerException, now it included all 'Exception'
-    public ResponseEntity<Object> handleAllExceptions(Exception ex, WebRequest request) { // eg. NullPointerException
+    @ExceptionHandler(Exception.class) // e.g. NullPointerException, now it included all 'Exception'
+    public ResponseEntity<Object> handleAllExceptions(Exception ex, WebRequest request) {
 
         String localizedErrorMessage = ex.getLocalizedMessage();
 

@@ -1,11 +1,9 @@
 package com.example.spring.mobile_app_ws.ui.controller;
 
-import com.example.spring.mobile_app_ws.exceptions.UserServiceException;
 import com.example.spring.mobile_app_ws.ui.model.request.UpdateUserDetailsRequest;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -46,9 +44,6 @@ public class UserController {
         }
     )
     public ResponseEntity<UserRest> getUser(@PathVariable("userID") String userID) {
-
-        if(true) throw new NullPointerException("userID is null");
-
         if(users.containsKey(userID))
             return ResponseEntity.ok(users.get(userID));
         else
