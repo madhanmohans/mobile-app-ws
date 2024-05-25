@@ -1,9 +1,10 @@
 package com.example.spring.mobile_app_ws.ui.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.spring.mobile_app_ws.ui.model.request.UserDetailsRequest;
 import com.example.spring.mobile_app_ws.ui.model.response.UserRest;
 
+@Validated
 @RestController
 @RequestMapping("/users") // http://localhost/8080/users
 public class UserController {
@@ -49,7 +51,7 @@ public class UserController {
         MediaType.APPLICATION_XML_VALUE,
         MediaType.APPLICATION_JSON_VALUE
         })
-    public ResponseEntity<UserRest> createUser(@RequestBody UserDetailsRequest createUserRequest) {
+    public ResponseEntity<UserRest> createUser(@Valid @RequestBody UserDetailsRequest createUserRequest) {
         UserRest returnValue = new UserRest();
         returnValue.setEmail(createUserRequest.getEmail());
         returnValue.setFirstName(createUserRequest.getFirstName());
