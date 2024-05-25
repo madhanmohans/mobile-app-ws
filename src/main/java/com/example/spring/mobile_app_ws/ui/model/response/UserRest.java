@@ -1,4 +1,4 @@
-package com.example.spring.mobile_app_ws.ui.model;
+package com.example.spring.mobile_app_ws.ui.model.response;
 public class UserRest {
     private String firstName;
     public String getFirstName() {
