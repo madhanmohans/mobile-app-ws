@@ -18,10 +18,16 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.spring.mobile_app_ws.ui.model.request.UserDetailsRequest;
 import com.example.spring.mobile_app_ws.ui.model.response.UserRest;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 @Validated
 @RestController
 @RequestMapping("/users") // http://localhost/8080/users
 public class UserController {
+
+    Map<String, UserRest> users;
 
     @GetMapping
     public String getUsers(@RequestParam(value = "page", defaultValue = "1", required = false) int page, 
@@ -37,11 +43,10 @@ public class UserController {
         }
     )
     public ResponseEntity<UserRest> getUser(@PathVariable("userID") String userID) {
-        UserRest returnValue = new UserRest();
-        returnValue.setEmail("example@email.com");
-        returnValue.setFirstName("Alex");
-        returnValue.setLastName("Hormozzi");
-        return new ResponseEntity<UserRest>(returnValue, HttpStatus.OK); // JSON default return type
+        if(users.containsKey(userID))
+            return ResponseEntity.ok(users.get(userID));
+        else
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
     
     @PostMapping(consumes = {
@@ -56,6 +61,12 @@ public class UserController {
         returnValue.setEmail(createUserRequest.getEmail());
         returnValue.setFirstName(createUserRequest.getFirstName());
         returnValue.setLastName(createUserRequest.getLastName());
+
+        String userId = UUID.randomUUID().toString();
+        returnValue.setUserId(userId);
+        if(users == null) users = new HashMap<>();
+        users.put(userId, returnValue);
+
         return new ResponseEntity<UserRest>(returnValue, HttpStatus.OK);
     }    
     
