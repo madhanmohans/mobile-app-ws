@@ -1,5 +1,6 @@
 package com.example.spring.mobile_app_ws.ui.controller;
 
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -8,6 +9,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.example.spring.mobile_app_ws.ui.model.UserRest;
 
 @RestController
 @RequestMapping("/users") // http://localhost/8080/users
@@ -21,9 +24,17 @@ public class UserController {
         return "get users was called with page " + page + " and limit " + limit + " and sort " + sort;
     }
     
-    @GetMapping(path="/{userID}")
-    public String getUser(@PathVariable("userID") String userID) {
-        return "Get user was called with userID " + userID;
+    @GetMapping(path="/{userID}", produces = {
+        MediaType.APPLICATION_XML_VALUE,
+        MediaType.APPLICATION_JSON_VALUE
+        }
+    )
+    public UserRest getUser(@PathVariable("userID") String userID) {
+        UserRest returnValue = new UserRest();
+        returnValue.setEmail("example@email.com");
+        returnValue.setFirstName("Alex");
+        returnValue.setLastName("Hormozzi");
+        return returnValue; // JSON default return type
     }
     
     @PostMapping
