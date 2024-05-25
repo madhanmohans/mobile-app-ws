@@ -91,8 +91,14 @@ public class UserController {
         return new ResponseEntity<UserRest>(HttpStatus.NOT_FOUND);
     }    
     
-    @DeleteMapping
-    public String deleteUser() {
-        return "Delete user was called";
+    @DeleteMapping(path = "/{userID}")
+    public ResponseEntity<Void> deleteUser(@PathVariable("userID") String userID) {
+        if(users.containsKey(userID)) {
+            users.remove(userID);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }
