@@ -1,5 +1,6 @@
 package com.example.spring.mobile_app_ws.ui.controller;
 
+import com.example.spring.mobile_app_ws.exceptions.UserServiceException;
 import com.example.spring.mobile_app_ws.ui.model.request.UpdateUserDetailsRequest;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -45,6 +46,9 @@ public class UserController {
         }
     )
     public ResponseEntity<UserRest> getUser(@PathVariable("userID") String userID) {
+
+        if(true) throw new UserServiceException("User service exception has been thrown");
+
         if(users.containsKey(userID))
             return ResponseEntity.ok(users.get(userID));
         else
