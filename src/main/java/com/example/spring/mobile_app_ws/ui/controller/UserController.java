@@ -47,7 +47,7 @@ public class UserController {
     )
     public ResponseEntity<UserRest> getUser(@PathVariable("userID") String userID) {
 
-        if(true) throw new UserServiceException("User service exception has been thrown");
+        if(true) throw new NullPointerException("userID is null");
 
         if(users.containsKey(userID))
             return ResponseEntity.ok(users.get(userID));

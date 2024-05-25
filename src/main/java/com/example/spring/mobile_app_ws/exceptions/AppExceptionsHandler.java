@@ -27,32 +27,17 @@ public class AppExceptionsHandler extends ResponseEntityExceptionHandler {
                 errorMessage, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @ExceptionHandler(NullPointerException.class)
-    public ResponseEntity<Object> handleNullPointerException(NullPointerException ex, WebRequest request) {
+    @ExceptionHandler({UserServiceException.class, NullPointerException.class})
+    public ResponseEntity<Object> handleUserServiceException(Exception ex, WebRequest request) {
 
-        String exceptionName = ex.getClass().toString();
+        String exceptionMessage = ex.getLocalizedMessage();
 
-        if(exceptionName.isEmpty()) exceptionName = ex.toString();
+        if (exceptionMessage.isEmpty()) exceptionMessage = ex.toString();
         // localized error msg can be null, so handling that (meaning there can be an exception but error message can be null)
 
-        ErrorMessage errorMessage = new ErrorMessage(new Date(), exceptionName);
+        ErrorMessage errorMessage = new ErrorMessage(new Date(), exceptionMessage);
 
         return new ResponseEntity<>(
                 errorMessage, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
-    @ExceptionHandler(UserServiceException.class)
-    public ResponseEntity<Object> handleUserServiceException(UserServiceException ex, WebRequest request) {
-
-        String exceptionName = ex.getLocalizedMessage();
-
-        if(exceptionName.isEmpty()) exceptionName = ex.toString();
-        // localized error msg can be null, so handling that (meaning there can be an exception but error message can be null)
-
-        ErrorMessage errorMessage = new ErrorMessage(new Date(), exceptionName);
-
-        return new ResponseEntity<>(
-                errorMessage, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
 }
