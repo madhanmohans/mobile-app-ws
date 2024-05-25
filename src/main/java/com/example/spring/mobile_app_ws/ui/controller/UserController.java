@@ -1,8 +1,10 @@
 package com.example.spring.mobile_app_ws.ui.controller;
 
+import com.example.spring.mobile_app_ws.ui.model.request.UpdateUserDetailsRequest;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -70,9 +72,23 @@ public class UserController {
         return new ResponseEntity<UserRest>(returnValue, HttpStatus.OK);
     }    
     
-    @PutMapping
-    public String updateUser() {
-        return "Update user was called";
+    @PutMapping(path = "/{userID}",
+            consumes = {
+            MediaType.APPLICATION_XML_VALUE,
+            MediaType.APPLICATION_JSON_VALUE
+    }, produces = {
+            MediaType.APPLICATION_XML_VALUE,
+            MediaType.APPLICATION_JSON_VALUE
+    })
+    public ResponseEntity<UserRest> updateUser(@Valid @RequestBody UpdateUserDetailsRequest updateUserRequest, @PathVariable("userID") String userID) {
+        if(users.containsKey(userID)) {
+            UserRest returnValue = users.get(userID);
+            returnValue.setFirstName(updateUserRequest.getFirstName());
+            returnValue.setLastName(updateUserRequest.getLastName());
+            users.put(userID, returnValue);
+            return new ResponseEntity<UserRest>(returnValue, HttpStatus.OK);
+        }
+        return new ResponseEntity<UserRest>(HttpStatus.NOT_FOUND);
     }    
     
     @DeleteMapping
